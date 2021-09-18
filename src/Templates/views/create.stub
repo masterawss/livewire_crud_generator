@@ -1,0 +1,26 @@
+<!-- Modal -->
+<div wire:ignore.self class="modal fade" id="createModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Nuevo registro</h5>
+                <button type="button" class="close btn btn-outline-dark btn-round btn-sm" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true close-btn">X</span>
+                </button>
+            </div>
+           <div class="modal-body">
+				<form>
+{{create_form}}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal">Cerrar</button>
+                @if (!$is_edit)
+                    <button type="button" wire:click.prevent="store()" class="btn btn-primary close-modal">Guardar</button>
+                @else
+                    <button type="button" wire:click.prevent="update()" class="btn btn-primary close-modal">Guardar</button>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>

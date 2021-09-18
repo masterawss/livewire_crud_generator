@@ -1,0 +1,40 @@
+{
+    "name": "master_awss/livewire_crud_generator",
+    "description": "Livewire crud generator",
+    "type": "library",
+    "require": {
+        "php": "^7.3",
+        "laravel/framework": "^8.61"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MasterAWSS\\LivewireCrudGenerator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anthony Will Solsol Soplin",
+            "email": "masterawss@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MasterAWSS\\LivewireCrudGenerator\\LivewireCrudGeneratorServiceProvider"
+            ],
+            "aliases": {
+                "LivewireCrud": "Flightsadmin\\LivewireCrud\\LivewireCrudFacade"
+            }
+        }
+    }
+}

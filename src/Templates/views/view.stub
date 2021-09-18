@@ -1,0 +1,52 @@
+@section('title', __('{{title}}'))
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-md-12">
+            <div style="display: flex; justify-content: space-between; align-items: center;" class="my-2">
+                <div class="float-left">
+                    <h4>Lista de {{title}}</h4>
+                </div>
+                @if (session()->has('message'))
+                    <div wire:poll.4s class="btn btn-sm btn-success" style="margin-top:0px; margin-bottom:0px;"> {{ session('message') }} </div>
+                @endif
+                <div class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#createModal" wire:click="setNew">
+                    <i class="fa fa-plus"></i> Agregar
+                </div>
+            </div>
+			<div class="card">
+				<div class="card-body">
+					@include('{{component_create_path}}')
+					@include('{{component_show_path}}')
+                    <div class="row">
+                        <div class="col-lg-8 col-7">
+                            <h6>Lista</h6>
+                            <p class="text-sm mb-0">
+                                <span class="font-weight-bold ms-1">{{ $items->count() }}</span> de {{ $items->total() }} resultados
+                            </p>
+                        </div>
+                        <div class="col-lg-4 col-5 my-auto text-end">
+							<input wire:model='search' type="text" class="form-control" name="search" id="search" placeholder="Buscar Bancos">
+                        </div>
+                    </div>
+				    <div class="table-responsive">
+                        <table class="table">
+                            {{t_head}}
+                            <tbody>
+                                @foreach($items as $row)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    {{td_body}}<td width="90">
+                                        <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#showModal" wire:click="show({{$row->id}})"><i class="fa fa-eye text-success" aria-hidden="true"></i></a>
+                                        <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#createModal" wire:click="edit({{$row->id}})"><i class="fa fa-edit text-info" aria-hidden="true"></i></a>
+                                        <a href="#" class="mx-2" onclick="confirm('¿Está seguro de eliminar? No podrá recuperarlo después')||event.stopImmediatePropagation()" wire:click="destroy({{$row->id}})"><i class="fa fa-trash text-danger"></i></a>
+                                    </td>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $items->links() }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,1 @@
+                    <x-input name="{{model}}" label="{{label}}" wiremodel="{{model}}" type="{{type}}" {{extra}} ></x-input>

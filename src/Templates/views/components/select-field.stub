@@ -1,0 +1,1 @@
+                    <x-select name="{{model}}" label="{{label}}" wiremodel="{{model}}" :object="{{object_variable}}" ></x-select>

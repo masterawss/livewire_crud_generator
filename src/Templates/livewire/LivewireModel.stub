@@ -1,0 +1,85 @@
+<?php
+
+namespace {{namespace}};
+
+use Livewire\Component;
+use Livewire\WithPagination;
+use {{model_namespace}};
+
+class Bancos extends Component
+{
+    use WithPagination;
+
+	protected $paginationTheme = 'bootstrap';
+    public $model_id, $search, $form;
+    public $is_edit = false;
+
+    protected function rules(){
+        $rules = [
+{{rules}}
+        ];
+
+        if($this->is_edit){
+            $rules = array_merge($rules,[
+                // RULES EXTRA FOR EDITING PURPOSES
+            ]);
+        }
+        return $rules;
+    }
+
+    public function render()
+    {
+		$search = '%'.$this->search .'%';
+        return view('{{view_component_path}}', [
+            'bancos' => {{model}}::latest()
+{{eloquent_filter}}
+            ->paginate(10),
+        ]);
+    }
+    public function store()
+    {
+        $form = $this->validate();
+        {{model}}::create($form['form']);
+        $this->empty();
+		session()->flash('message', 'El nuevo registro se ha creado correctamente 😃.');
+    }
+    public function update()
+    {
+        if(!$this->model_id) return;
+
+        $form = $this->validate();
+
+        $record = {{model}}::find($this->model_id);
+        $record->update($form['form']);
+
+        $this->empty();
+
+        session()->flash('message', 'El registro se actualizó correctamente 😃.');
+    }
+    public function edit($model_id)
+    {
+        $this->model_id = $model_id;
+        $this->form = {{model}}::findOrFail($model_id);
+        $this->is_edit = true;
+    }
+    public function setNew()
+    {
+        $this->resetInput();
+        $this->is_edit = false;
+    }
+    public function empty()
+    {
+        $this->is_edit = false;
+        $this->resetInput();
+        $this->emit('closeModal');
+    }
+    private function resetInput()
+    {
+		$this->form = [];
+    }
+    public function destroy($model_id)
+    {
+        $record = {{model}}::findOrFail($model_id)->delete();
+        session()->flash('message', 'El registro se eliminó correctamente 😃.');
+    }
+}
