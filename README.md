@@ -17,7 +17,10 @@ Especifica el modelo y la librería detectará la tabla, fillables, relaciones, 
 -- crud functions
 
 
-## 
+## Requerimientos
+- Boostrap 5
+
+## Instalación
 
 Instala la librería por composer.
 
