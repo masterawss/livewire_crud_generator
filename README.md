@@ -1,9 +1,8 @@
 # Livewire crud generator for Laravel
 ## Una librería para no perder el tiempo en esos cruds de siempre
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+[![Build Status](https://app.travis-ci.com/masterawss/livewire_crud_generator.svg?branch=main)](https://app.travis-ci.com/masterawss/livewire_crud_generator)
 
 Especifica el modelo y la librería detectará la tabla, fillables, relaciones, etc. para generar los siguientes archivos:
 
