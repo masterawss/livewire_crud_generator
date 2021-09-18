@@ -2,6 +2,7 @@
 namespace MasterAWSS\LivewireCrudGenerator\Service;
 
 use ErrorException;
+use Exception;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Filesystem\Filesystem;
 use ReflectionClass;
@@ -20,6 +21,12 @@ class BaseGenerator{
         $this->subfolder = $options['s'];
 
         $this->camel_name = $this->camelToSnake($name);
+
+        try {
+            $this->getModelInstance();
+        } catch (\Throwable $th) {
+            return 'No existe el modelo';
+        }
     }
     public function getColumnsFromModel(){
         $model = $this->getModelInstance();
@@ -62,6 +69,8 @@ class BaseGenerator{
     }
     public function getModelInstance(){
         $model_str = "App\\Models\\".$this->name;
+
+        $filesystem = new Filesystem;
         $model = new $model_str;
         return $model;
     }

@@ -43,7 +43,12 @@ class LivewireCrudGeneratorCommand extends Command
      */
     public function handle()
     {
-        $this->base = new BaseGenerator($this->argument('name'), $this->options());
+        try {
+            $this->base = new BaseGenerator($this->argument('name'), $this->options());
+        } catch (\Throwable $th) {
+            $this->danger($th);
+        }
+
         $this->generateViews();
         $this->generateController();
 
