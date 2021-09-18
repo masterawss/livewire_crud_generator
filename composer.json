@@ -16,7 +16,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "MasterAWSS\\LivewireCrudGenerator\\Tests\\": "tests"
         }
     },
     "license": "MIT",
