@@ -130,10 +130,10 @@ class ViewGenerator {
         foreach ($columns as $col) {
             $variables = [
                 '{{label}}'     => $col['label'],
-                '{{value}}'     => $this->getRowVariable($col['field']),
+                '{{value}}'     => str_replace('$row', '$record', $this->getRowVariable($col['field'])),
             ];
 
-            $viewTemplate .= $this->base->tab(5).str_replace(
+            $viewTemplate .= $this->base->tab(6).str_replace(
                 array_keys($variables),
                 array_values($variables),
                 $this->base->getStubTemplate('views/components/simple-list')

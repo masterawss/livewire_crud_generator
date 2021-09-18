@@ -11,12 +11,14 @@
            <div class="modal-body">
                @if (is_null($record))
                     <div class="text-center my-4">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </div>
                 @else
+                    <div class="row">
 {{list_show}}
+                    </div>
                @endif
             </div>
             <div class="modal-footer">
