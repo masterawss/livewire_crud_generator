@@ -1,1 +1,1 @@
-<x-simple-list label="{{label}}" value="{{value}}"></x-simple-list>
+<x-simple-list label="{{label}}" :value="{{value}}"></x-simple-list>
