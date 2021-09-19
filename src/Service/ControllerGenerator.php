@@ -16,7 +16,7 @@ class ControllerGenerator {
         $this->model_name = $this->base->name.'s';
     }
     public function buildFile(){
-        $file_path = $this->base->getControllerPath($this->model_name.'s.php');
+        $file_path = $this->base->getControllerPath($this->model_name.'.php');
         $this->base->setFileTemplate(
             $this->generateTemplateVariables(),
             'livewire/LivewireModel',
