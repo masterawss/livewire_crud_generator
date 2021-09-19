@@ -11,7 +11,7 @@ class {{model_lw_name}} extends Component
     use WithPagination;
 
 	protected $paginationTheme = 'bootstrap';
-    public $model_id, $search, $form;
+    public $model_id, $search, $form, $record;
     public $is_edit = false;
 
     protected function rules(){
@@ -61,6 +61,9 @@ class {{model_lw_name}} extends Component
         $this->model_id = $model_id;
         $this->form = {{model}}::findOrFail($model_id);
         $this->is_edit = true;
+    }
+    public function show($model_id){
+        $this->record = Banco::findOrFail($model_id);
     }
     public function setNew()
     {
