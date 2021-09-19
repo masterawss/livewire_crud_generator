@@ -31,6 +31,7 @@ class ControllerGenerator {
             '{{view_component_path}}'   => $this->getViewPath(),
             '{{model}}'                 => $this->base->name,
             '{{eloquent_filter}}'       => $this->getEloquentFilter(),
+            '{{model_lw_name}}'         => $this->base->name.'s',
         ];
     }
     public function getViewPath(){
