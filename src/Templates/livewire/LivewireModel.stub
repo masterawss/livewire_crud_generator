@@ -31,7 +31,7 @@ class {{model_lw_name}} extends Component
     {
 		$search = '%'.$this->search .'%';
         return view('{{view_component_path}}', [
-            'bancos' => {{model}}::latest()
+            'items' => {{model}}::latest()
 {{eloquent_filter}}
             ->paginate(10),
         ]);
