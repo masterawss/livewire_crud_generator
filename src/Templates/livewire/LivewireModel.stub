@@ -63,7 +63,7 @@ class {{model_lw_name}} extends Component
         $this->is_edit = true;
     }
     public function show($model_id){
-        $this->record = Banco::findOrFail($model_id);
+        $this->record = {{model}}::findOrFail($model_id);
     }
     public function setNew()
     {
