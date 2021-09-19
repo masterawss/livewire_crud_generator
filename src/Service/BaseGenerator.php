@@ -172,7 +172,7 @@ class BaseGenerator{
         return $tab;
     }
     public function getRouteSugerence(){
-        return "Route::get('/{$this->camel_name}', {$this->name}::class)->name('{$this->camel_name}.index');";
+        return "Route::get('/{$this->camel_name}', {$this->model_name}::class)->name('{$this->camel_name}.index');";
     }
 
     function camelToSnake($input)

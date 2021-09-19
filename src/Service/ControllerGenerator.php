@@ -9,12 +9,14 @@ use ReflectionMethod;
 
 class ControllerGenerator {
     private BaseGenerator $base;
+    private $model_name;
     public function __construct(BaseGenerator $base)
     {
         $this->base = $base;
+        $this->model_name = $this->base->name.'s';
     }
     public function buildFile(){
-        $file_path = $this->base->getControllerPath($this->base->name.'s.php');
+        $file_path = $this->base->getControllerPath($this->model_name.'s.php');
         $this->base->setFileTemplate(
             $this->generateTemplateVariables(),
             'livewire/LivewireModel',
@@ -31,7 +33,7 @@ class ControllerGenerator {
             '{{view_component_path}}'   => $this->getViewPath(),
             '{{model}}'                 => $this->base->name,
             '{{eloquent_filter}}'       => $this->getEloquentFilter(),
-            '{{model_lw_name}}'         => $this->base->name.'s',
+            '{{model_lw_name}}'         => $this->model_name,
         ];
     }
     public function getViewPath(){
