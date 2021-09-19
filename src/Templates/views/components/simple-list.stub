@@ -1,3 +1,3 @@
 <div class="col-md-12" >
-                            <x-simple-list label="{{label}}" :value="{{value}}"></x-simple-list>
+                            <x-master-simple-list label="{{label}}" :value="{{value}}"></x-master-simple-list>
                         </div>
