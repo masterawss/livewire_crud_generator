@@ -33,7 +33,6 @@ class BaseGenerator{
         $columns = [];
         $columns_db = \DB::select('describe '.$model->getTable());
         $fillables = $model->getFillable();
-
         foreach ($columns_db as $column) {
             if( in_array($column->Field, $fillables)){
                 $columns[] = [
@@ -42,11 +41,10 @@ class BaseGenerator{
                     'title'     => str_replace('_', ' ',$column->Field),
                     'is_null'   => $column->Null == 'YES',
                     'label'     => str_replace('_', ' ', ucfirst(str_replace('_id', '',$column->Field))),
-                    'is_foreign'=> $this->isForeignInput($column->Field),
                     'is_numeric'=> $this->isNumeric($column->Type),
                     'is_date'   => $this->isDate($column->Type),
                     'is_unique' => $this->isUnique($column->Type),
-                    'belongs_to_function' => str_replace('_id', '',$column->Field),
+                    'foreign_status' => $this->getForeignStatus($column->Field),
                 ];
             }
         }
@@ -61,10 +59,16 @@ class BaseGenerator{
     public function isUnique($type){
         return strpos($type, 'unique')  !== false;
     }
-    public function isForeignInput($field){
-        return substr($field, -3) == '_id';
+    public function getForeignStatus($field){
+        $foreigns = $this->getRelationsFromModel();
+        foreach ($foreigns as $method => $foreign) {
+            if($foreign['foreign_key'] == $field) 
+                return array_merge($foreign, ['is_foreign' => true]);
+        }   
+        return [ 'is_foreign' => false ];
     }
     public function getObjectVariable($column){
+        dd($column);
         return \Str::start(\Str::finish(str_replace('_id', '',$column['field']), 's'), '$');
     }
     public function getModelInstance(){
@@ -84,7 +88,7 @@ class BaseGenerator{
     public function getViewPath($file_name){
         $path = '/views/livewire/';
         if($this->subfolder) $path .= $this->subfolder.'/';
-        $path .= $this->camel_name.'/'.$file_name;
+        $path .= $this->camel_name.'/'.\Str::snake($file_name);
         return $path;
     }
     public function getControllerPath($file_name){
@@ -124,8 +128,13 @@ class BaseGenerator{
                 $return = $method->invoke($model);
                 if ($return instanceof Relation) {
                     $relationships[$method->getName()] = [
-                        'type' => (new ReflectionClass($return))->getShortName(),
-                        'model' => (new ReflectionClass($return->getRelated()))->getName()
+                        'type'          => (new ReflectionClass($return))->getShortName(),
+                        'model'         => (new ReflectionClass($return->getRelated()))->getName(),
+                        'foreign_key'   => (new ReflectionClass($return))->hasMethod('getForeignKey')
+                                            ? $return->getForeignKey()
+                                            : $return->getForeignKeyName(),
+                        'method'        => $method->getName()
+                        // 'ownerKey' => $ownerKey,
                     ];
                 }
             } catch(ErrorException $e) {}

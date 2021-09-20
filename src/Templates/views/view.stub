@@ -40,6 +40,7 @@
                                         <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#createModal" wire:click="edit({{$row->id}})"><i class="fa fa-edit text-info" aria-hidden="true"></i></a>
                                         <a href="#" class="mx-2" onclick="confirm('¿Está seguro de eliminar? No podrá recuperarlo después')||event.stopImmediatePropagation()" wire:click="destroy({{$row->id}})"><i class="fa fa-trash text-danger"></i></a>
                                     </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>

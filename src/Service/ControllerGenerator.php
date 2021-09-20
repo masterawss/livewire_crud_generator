@@ -34,21 +34,23 @@ class ControllerGenerator {
             '{{model}}'                 => $this->base->name,
             '{{eloquent_filter}}'       => $this->getEloquentFilter(),
             '{{model_lw_name}}'         => $this->model_name,
+            '{{foreigns_variable_declare}}' => $this->getForeignsVariableDeclare(),
+            '{{foreigns_variable_mount}}'   => $this->getForeignsVariableMount(),
         ];
     }
     public function getViewPath(){
         $path = "livewire.";
         if($this->base->subfolder)
             $path .= "{$this->base->subfolder}.";
-        $path .= strtolower($this->base->name).".view";
+        $path .= \Str::snake($this->base->name).".view";
         return $path;
     }
     public function getEloquentFilter(){
         $filter = '';
         foreach ($this->base->getColumnsFromModel() as $column) {
-            if($column['is_foreign']){
-                $filter .= $this->base->tab(3).'->orWhereHas("'.$column['belongs_to_function'].'", function($q) use ($search){
-                    return $q->where("id", "LIKE", $search);
+            if($column['foreign_status']['is_foreign']){
+                $filter .= $this->base->tab(3).'->orWhereHas("'.$column['foreign_status']['method'].'", function($q) use ($search){
+                    return $q->where("descripcion", "LIKE", $search);
                     // ->orWhere("", "LIKE", $search);
                 })';
             }else{
@@ -86,5 +88,23 @@ class ControllerGenerator {
             // TODO: Is unique rule
         }
         return $rules;
+    }
+    public function getForeignsVariableDeclare (){
+        $foreigns = $this->base->getRelationsFromModel();
+        $value = '';
+        if(!empty($foreigns)){
+            $value = $this->base->tab(1).'public ';
+            foreach($foreigns as $foreign)
+                $value .= '$'.$foreign['method'].'s, ';
+            $value = \Str::finish(rtrim($value, ", "), ';');
+        }
+        return $value;
+    }
+    public function getForeignsVariableMount (){
+        $value = '';
+        $foreigns = $this->base->getRelationsFromModel();
+        foreach($foreigns as $foreign)
+            $value .= $this->base->tab(2).'$this->'.$foreign['method']."s = \\{$foreign['model']}::get(); \n";
+        return $value;
     }
 }

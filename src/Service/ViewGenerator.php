@@ -76,16 +76,17 @@ class ViewGenerator {
         $columns = $this->base->getColumnsFromModel();
         $tbody = '';
         foreach ($columns as $column)
-            $tbody .= "<td>{{ ".$this->getRowVariable($column['field'])." }}</td> \n".$this->base->tab(9);
+            $tbody .= "<td>{{ ".$this->getRowVariable($column)." }}</td> \n".$this->base->tab(9);
 
         return $tbody;
     }
     public function getRowVariable($field){
-        if($this->base->isForeignInput($field)){
-            $d = substr($field, 0, -3);
-            return "optional(".'$row->'."{$d})->descripcion";
+        if($field['foreign_status']['is_foreign']){
+            return "optional(".'$row->'."{$field['foreign_status']['method']})->descripcion";
         }
-        return '$row->'.$field;
+        if($field['is_date'])
+            return "optional(".'$row->'."{$field['field']})->format('Y-m-d')";
+        return '$row->'.$field['field'];
     }
 
     private function getComponentCreatePath(){
@@ -110,11 +111,15 @@ class ViewGenerator {
                 '{{label}}'     => $col['label'],
                 '{{type}}'      => $this->getTypeInput($col),
                 '{{extra}}'     => $this->getExtraInput($col),
-                '{{object_variable}}'    => $this->base->getObjectVariable($col),
             ];
 
-            if($col['is_foreign'])  $stub = 'views/components/select-field';
-            else                    $stub = 'views/components/input-field';
+            if($col['foreign_status']['is_foreign']){
+                $variables = array_merge($variables, [
+                    'object_variable' => '$'.$col['foreign_status']['method'].'s'
+                ]);
+                $stub = 'views/components/select-field';
+            }  
+            else $stub = 'views/components/input-field';
 
             $viewTemplate .= str_replace(
                 array_keys($variables),
@@ -130,7 +135,7 @@ class ViewGenerator {
         foreach ($columns as $col) {
             $variables = [
                 '{{label}}'     => $col['label'],
-                '{{value}}'     => str_replace('$row', '$record', $this->getRowVariable($col['field'])),
+                '{{value}}'     => str_replace('$row', '$record', $this->getRowVariable($col)),
             ];
 
             $viewTemplate .= $this->base->tab(6).str_replace(

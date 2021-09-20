@@ -46,7 +46,7 @@ class LivewireCrudGeneratorCommand extends Command
         try {
             $this->base = new BaseGenerator($this->argument('name'), $this->options());
         } catch (\Throwable $th) {
-            $this->danger($th);
+            $this->warn($th);
         }
 
         $this->generateViews();

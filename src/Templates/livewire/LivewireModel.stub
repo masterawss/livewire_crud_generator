@@ -10,10 +10,9 @@ class {{model_lw_name}} extends Component
 {
     use WithPagination;
 
-	protected $paginationTheme = 'bootstrap';
     public $model_id, $search, $form, $record;
     public $is_edit = false;
-
+{{foreigns_variable_declare}}
     protected function rules(){
         $rules = [
 {{rules}}
@@ -25,6 +24,10 @@ class {{model_lw_name}} extends Component
             ]);
         }
         return $rules;
+    }
+
+    public function mount(){
+{{foreigns_variable_mount}}
     }
 
     public function render()
