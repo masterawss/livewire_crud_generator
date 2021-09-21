@@ -78,7 +78,7 @@ class {{model_lw_name}} extends Component
     {
         $this->is_edit = false;
         $this->resetInput();
-        $this->emit('closeModal');
+        $this->emit('closeModals');
     }
     private function resetInput()
     {
