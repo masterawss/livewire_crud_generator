@@ -115,10 +115,10 @@ class ViewGenerator {
 
             if($col['foreign_status']['is_foreign']){
                 $variables = array_merge($variables, [
-                    'object_variable' => '$'.$col['foreign_status']['method'].'s'
+                    '{{object_variable}}' => '$'.$col['foreign_status']['method'].'s'
                 ]);
                 $stub = 'views/components/select-field';
-            }  
+            }
             else $stub = 'views/components/input-field';
 
             $viewTemplate .= str_replace(
