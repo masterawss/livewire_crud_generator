@@ -1,1 +1,1 @@
-                    <x-master-input name="{{model}}" label="{{label}}" wiremodel="form.{{model}}" type="{{type}}" {{extra}} ></x-master-input>
+                    <x-master-input name="form.{{model}}" label="{{label}}" wiremodel="form.{{model}}" type="{{type}}" {{extra}} ></x-master-input>
