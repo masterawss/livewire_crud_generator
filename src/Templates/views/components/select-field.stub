@@ -1,1 +1,1 @@
-                    <x-master-select name="{{model}}" label="{{label}}" wiremodel="{{model}}" :options="{{object_variable}}" ></x-master-select>
+                    <x-master-select name="{{model}}" label="{{label}}" wiremodel="form.{{model}}" :options="{{object_variable}}" ></x-master-select>
