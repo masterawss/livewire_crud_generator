@@ -10,6 +10,7 @@ class {{model_lw_name}} extends Component
 {
     use WithPagination;
 
+	protected $paginationTheme = 'bootstrap';
     public $model_id, $search, $form, $record;
     public $is_edit = false;
 {{foreigns_variable_declare}}
