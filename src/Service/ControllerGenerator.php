@@ -16,7 +16,8 @@ class ControllerGenerator {
         $this->model_name = $this->base->name.'s';
     }
     public function buildFile(){
-        $file_path = $this->base->getControllerPath($this->model_name.'.php');
+        // $file_path = $this->base->getControllerPath($this->model_name.'.php');
+        $file_path = $this->base->getControllerPath($this->base->name.'\Index.php');
         $this->base->setFileTemplate(
             $this->generateTemplateVariables(),
             'livewire/LivewireModel',
@@ -33,7 +34,7 @@ class ControllerGenerator {
             '{{view_component_path}}'   => $this->getViewPath(),
             '{{model}}'                 => $this->base->name,
             '{{eloquent_filter}}'       => $this->getEloquentFilter(),
-            '{{model_lw_name}}'         => $this->model_name,
+            // '{{model_lw_name}}'         => $this->model_name,
             '{{foreigns_variable_declare}}' => $this->getForeignsVariableDeclare(),
             '{{foreigns_variable_mount}}'   => $this->getForeignsVariableMount(),
         ];
@@ -66,7 +67,7 @@ class ControllerGenerator {
         $namespace = 'App\Http\Livewire';
         if($this->base->subfolder){
             $subfolder = str_replace(' ', '', ucwords(str_replace("_", " ", $this->base->subfolder)));
-            return "App\Http\Livewire\\".$subfolder;
+            return "App\Http\Livewire\\".$subfolder."\\".$this->base->name;
         }
         return $namespace;
     }
