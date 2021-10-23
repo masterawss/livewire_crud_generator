@@ -26,13 +26,42 @@ Instala la librería por composer.
 ```sh
 composer require master_awss/livewire_crud_generator
 ```
+## Generar
 
 Para generar el crud:
 
-```sh
-php artisan lwcrud:generate [ModelName]
-```
+### Crud en un solo archivo Livewire:
 
+```sh
+lw:crud [ModelName] --type=crud-merged
+```
+O simplemente dejarlo así:
+```sh
+lw:crud [ModelName]
+```
+ya que se trata de un parámetro por defecto.
+Esto generará un solo archivo con TODAS las funcionalidades de INDEX, SHOW, CREATE, EDIT, DELETE. Las vistas se incluirán como modals en la vista principal index.
+### Crud en archivos separados Livewire:
+```sh
+lw:crud [ModelName] --type=crud-splited
+```
+Esto generará un crud con los siguientes componentes separados: Index, Created, Update, Show. El sistema de vistas ya no se desarrollará con modals, en cambio serán por redireccionamiento, por lo que deberá especificar cada componente en routes/web.php
+
+### Solo el componente Index:
+```sh
+lw:crud [ModelName] --type=index
+```
+Generará solo el componente INDEX e insertará filtros de búsqueda con eloquent
+### Solo el componente Create:
+```sh
+lw:crud [ModelName] --type=create
+```
+Generará solo el componente CREATE e insertará las reglas automáticamente de acuerdo al modelo
+### Solo el componente Show:
+```sh
+lw:crud [ModelName] --type=show
+```
+Generará solo el componente SHOW
 ## Opciones
 
 Puedes añadir opciones al comando
