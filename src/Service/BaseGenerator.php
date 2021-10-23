@@ -11,16 +11,21 @@ use Illuminate\Console\Command;
 
 class BaseGenerator{
     public $name;
-    public $camel_name;
+    public $variable_model;
     public $options;
     public $subfolder;
+    public $type;
+    public $mode;
+
     public function __construct($name, $options)
     {
         $this->name = $name;
         $this->options = $options;
-        $this->subfolder = $options['s'];
+        $this->subfolder = $options['subfolder'];
+        $this->type = $options['type'];
+        $this->mode = $options['mode'];
 
-        $this->camel_name = $this->camelToSnake($name);
+        $this->variable_model = $this->camelToSnake($name);
 
         try {
             $this->getModelInstance();
@@ -62,9 +67,9 @@ class BaseGenerator{
     public function getForeignStatus($field){
         $foreigns = $this->getRelationsFromModel();
         foreach ($foreigns as $method => $foreign) {
-            if($foreign['foreign_key'] == $field) 
+            if($foreign['foreign_key'] == $field)
                 return array_merge($foreign, ['is_foreign' => true]);
-        }   
+        }
         return [ 'is_foreign' => false ];
     }
     public function getObjectVariable($column){
@@ -88,8 +93,11 @@ class BaseGenerator{
     public function getViewPath($file_name){
         $path = '/views/livewire/';
         if($this->subfolder) $path .= $this->subfolder.'/';
-        $path .= $this->camel_name.'/'.\Str::snake($file_name);
+        $path .= $this->variable_model.'/'.\Str::snake($file_name);
         return $path;
+    }
+    public function getViewHelperPath($file_name){
+        return str_replace('/', '.', str_replace('/views/', '', $this->getViewPath($file_name)));
     }
     public function getControllerPath($file_name){
         $path = '/app/Http/Livewire/';
@@ -148,7 +156,7 @@ class BaseGenerator{
             array_values($template_variables),
             $this->getStubTemplate($stub_path)
         );
-        // dd($resource_path);
+        // dd($viewTemplate);
         $path = $this->makeDirectory($destination_path);
         // dd($path);
         $this->setFile($path, $viewTemplate);
@@ -181,15 +189,49 @@ class BaseGenerator{
         return $tab;
     }
     public function getRouteSugerence(){
-        return "Route::get('/{$this->camel_name}', {$this->name}s::class)->name('{$this->camel_name}.index');";
+        return "Route::get('/{$this->variable_model}', {$this->name}s::class)->name('{$this->variable_model}.index');";
     }
 
     function camelToSnake($input)
     {
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
     }
+
+    public function getCreateModalName(){
+
+    }
+    public function getRoute($type){
+        return "route('".$this->getRouteName($type)."')";
+    }
+    public function getRouteName($type){
+        $path = '';
+        if($this->subfolder) $path .= $this->subfolder.'/';
+        $path .= $this->variable_model;
+        return "$path.$type";
+    }
     // private function getCamelName($input)
     // {
     //     return $this->camelToSnake($input);
     // }
+
+    public function getNamespace(){
+        $namespace = 'App\Http\Livewire';
+        if($this->subfolder){
+            $subfolder = str_replace(' ', '', ucwords(str_replace("_", " ", $this->subfolder)));
+            return "$namespace"."\\".$subfolder."\\".$this->name;
+        }else{
+            return "$namespace"."\\".$this->name;
+        }
+    }
+    protected function getRowVariable($field){
+        if($field['foreign_status']['is_foreign']){
+            return "optional(".'$row->'."{$field['foreign_status']['method']})->descripcion";
+        }
+        if($field['is_date'])
+            return "optional(".'$row->'."{$field['field']})->format('Y-m-d')";
+        return '$row->'.$field['field'];
+    }
+    public function getVariableModel(){
+        return $this->camelToSnake($this->name);
+    }
 }

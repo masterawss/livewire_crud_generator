@@ -1,0 +1,3 @@
+<a class="btn btn-sm btn-info" href="{{ {{create_route}} }}">
+    <i class="fa fa-plus"></i> Agregar
+</a>

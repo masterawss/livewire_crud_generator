@@ -1,0 +1,5 @@
+                                        <div class="d-flex justify-content-evenly">
+                                            <a href="{{route('{{route_name_show}}', $row)}}" class="mx-2"><i class="fa fa-eye text-success" aria-hidden="true"></i></a>
+                                            <a href="{{route('{{route_name_edit}}', $row)}}" class="mx-2"><i class="fa fa-eye text-success" aria-hidden="true"></i></a>
+                                            <livewire:curso.delete :curso="$row"/>
+                                        </div>

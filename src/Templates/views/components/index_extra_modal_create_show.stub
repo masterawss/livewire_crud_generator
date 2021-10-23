@@ -1,0 +1,2 @@
+@include('{{component_create_path}}')
+@include('{{component_show_path}}')

@@ -1,0 +1,16 @@
+<?php
+
+namespace {{namespace}};
+
+use Livewire\Component;
+use {{model_namespace}};
+
+class Show extends Component
+{
+    public {{model}} ${{variable_model}};
+
+    public function render()
+    {
+        return view('{{view_helper_path}}');
+    }
+}

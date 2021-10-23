@@ -1,0 +1,16 @@
+                <form wire:submit.prevent="save">
+                    {{create_form}}
+                    <div wire:loading>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="visually-hidden">Cargando...</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div wire:loading.remove>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" type="submit">Guardar</button>
+                        </div>
+                    </div>
+                </form>

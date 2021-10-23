@@ -1,0 +1,61 @@
+<?php
+
+namespace {{namespace}};
+
+use Livewire\Component;
+use {{model_namespace}};
+
+class Create extends Component
+{
+    public ${{variable_model}} = null;
+    public $form = [];
+{{foreigns_variable_declare}}
+    protected function rules(){
+        $rules = [
+{{rules}}
+        ];
+
+        if($this->{{variable_model}}){
+            $rules = array_merge($rules,[
+                // RULES EXTRA FOR EDITING PURPOSES
+            ]);
+        }
+        return $rules;
+    }
+    public function mount(){
+{{foreigns_variable_mount}}
+    }
+    public function render()
+    {
+        return view('{{view_helper_path}}');
+    }
+    public function create(){
+        $this->form = [];
+        $this->{{variable_model}} = null;
+    }
+    public function edit({{model}} ${{variable_model}}){
+        $this->{{variable_model}} = ${{variable_model}};
+        $this->form = ${{variable_model}}->toArray();
+    }
+    public function save(){
+        if($this->{{variable_model}})
+            $this->update();
+        else
+            $this->store();
+
+        $this->return();
+    }
+    public function store(){
+        $form = $this->validate();
+        $this->{{variable_model}} = {{model}}::create($form['form']);
+    }
+    public function update(){
+        $form = $this->validate();
+        $this->{{variable_model}}->update($form['form']);
+    }
+    public function return() {
+        $this->form = [];
+        $this->emit('closeModals');
+        $this->emit('notify', 'success', 'Se registró correctamente 😃.');
+    }
+}
