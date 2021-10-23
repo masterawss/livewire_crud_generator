@@ -45,7 +45,7 @@ Esto generará un solo archivo con TODAS las funcionalidades de INDEX, SHOW, CRE
 ```sh
 lw:crud [ModelName] --type=crud-splited
 ```
-Esto generará un crud con los siguientes componentes separados: Index, Created, Update, Show. El sistema de vistas ya no se desarrollará con modals, en cambio serán por redireccionamiento, por lo que deberá especificar cada componente en routes/web.php
+Esto generará un crud con los siguientes componentes separados:  INDEX, SHOW, CREATE, EDIT, DELETE. El sistema de vistas ya no se desarrollará con modals, en cambio serán por redireccionamiento, por lo que deberá especificar cada componente en routes/web.php. (La funcionalidad DELETE se econtrará ubicada en el componente SHOW)
 
 ### Solo el componente Index:
 ```sh
