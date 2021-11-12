@@ -9,7 +9,6 @@ use {{model_namespace}};
 class Index extends Component
 {
     use WithPagination;
-	protected $paginationTheme = 'bootstrap';
 
     public $search = '';
     public ${{variable_model}} = null;
